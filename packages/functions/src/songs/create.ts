@@ -5,8 +5,8 @@ import dynamoDb from "@music-works/core/dynamodb";
 
 export const main = handler(async (event) => {
     let data = {
-      songName: "",
-      songFile: "",
+        songName: "",
+        songFilename: "",
     };
 
     // Request body is passed in as a JSON encoded string in 'event.body'
@@ -20,7 +20,7 @@ export const main = handler(async (event) => {
             userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
             songId: uuid.v1(), // A unique uuid
             songName: data.songName, // Parsed from request body
-            songFile: data.songFile, // Parsed from request body
+            songFilename: data.songFilename, // Parsed from request body
             createdAt: Date.now(), // Current Unix timestamp
         },
     };

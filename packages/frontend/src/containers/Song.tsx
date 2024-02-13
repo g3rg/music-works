@@ -15,6 +15,8 @@ export default function Song() {
     const nav = useNavigate();
     const [song, setSong] = useState<null| SongType>(null);
     const [songName, setSongName] = useState("");
+    const [songSpeed, setSongSpeed] = useState(100);
+
     const [isLoading, setIsLoading] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -26,10 +28,10 @@ export default function Song() {
         async function onLoad() {
             try {
                 const song = await loadSong();
-                const { songName, songFilename: attachment } = song;
+                const { songName, songFilename: songFilename } = song;
 
-                if (attachment) {
-                    song.songFileURL = await Storage.vault.get(attachment);
+                if (songFilename) {
+                    song.songFileURL = await Storage.vault.get(songFilename);
                 }
 
                 setSongName(songName);
@@ -62,7 +64,7 @@ export default function Song() {
     }
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        let attachment;
+        let songFilename;
 
         event.preventDefault();
 
@@ -79,14 +81,14 @@ export default function Song() {
 
         try {
             if (file.current) {
-                attachment = await s3Upload(file.current);
+                songFilename = await s3Upload(file.current);
             } else if (song && song.songFilename) {
-                attachment = song.songFilename;
+                songFilename = song.songFilename;
             }
 
             await saveSong({
                 songName: songName,
-                songFilename: attachment,
+                songFilename: songFilename,
             });
             nav("/");
         } catch (e) {
@@ -121,6 +123,15 @@ export default function Song() {
         }
     }
 
+    function setSongSpeedAndPlaybackRate( newRate: number) {
+        setSongSpeed(newRate)
+        let player = document.getElementById('audioPlayer')
+        if (player) {
+            //@ts-ignore
+            player.playbackRate = (newRate / 100)
+        }
+    }
+
     return (
         <div className="Songs">
             {song && (
@@ -135,7 +146,7 @@ export default function Song() {
                             />
                         </Form.Group>
                         <Form.Group className="mt-2" controlId="file">
-                            <Form.Label>Attachment</Form.Label>
+                            <Form.Label>Song File</Form.Label>
                             {song.songFilename && (
                                 <p>
                                     <a
@@ -147,8 +158,20 @@ export default function Song() {
                                     </a>
                                 </p>
                             )}
-                            <Form.Control onChange={handleFileChange} type="file" />
+                            <Form.Control onChange={handleFileChange} type="file"/>
                         </Form.Group>
+
+                        <audio id="audioPlayer" controls >
+                            <source src={song.songFileURL}
+                                    type='audio/mp3'/>
+                        </audio>
+                        <input id="pbr" type="range"
+                               min="50" max="150" step="1"
+                               value={songSpeed}
+                               onChange={(event) => setSongSpeedAndPlaybackRate(parseInt(event.target.value))}/>
+
+                        <p>Playback Rate <span id="currentPbr">{songSpeed}%</span></p>
+
                         <Stack gap={1}>
                             <LoaderButton
                                 size="lg"

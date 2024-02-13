@@ -1,0 +1,9 @@
+[x] Song page - Play Song
+[x] Song page - fix upload on update
+[x] Song page - Set play speed
+
+[ ] Move song list to new page
+[ ] home page select song from drop down
+[ ] home page play current selected song
+[ ] home page allow setting of song speed
+[ ] Check 'add to home' on phone uses Chrome time for charlotte or not

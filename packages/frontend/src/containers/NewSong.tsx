@@ -49,7 +49,7 @@ export default function NewSong() {
                 ? await s3Upload(file.current)
                 : undefined;
 
-            await createSong({ songName, songFileURL: attachment });
+            await createSong({ songName, songFilename: attachment });
             nav("/");
         } catch (e) {
             onError(e);

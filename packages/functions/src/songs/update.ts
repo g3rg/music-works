@@ -14,9 +14,9 @@ export const main = handler(async (event) => {
         },
         // 'UpdateExpression' defines the attributes to be updated
         // 'ExpressionAttributeValues' defines the value in the update expression
-        UpdateExpression: "SET songName = :songName, songFile = :songFile",
+        UpdateExpression: "SET songName = :songName, songFilename = :songFilename",
         ExpressionAttributeValues: {
-            ":songFile": data.songFile || null,
+            ":songFilename": data.songFilename || null,
             ":songName": data.songName || null,
         },
         // 'ReturnValues' specifies if and how to return the item's attributes,
