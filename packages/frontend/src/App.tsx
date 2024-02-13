@@ -44,7 +44,7 @@ function App() {
             <div className="App container py-3">
                 <Navbar collapseOnSelect bg="light" expand="md" className="mb-3 px-3">
                     <LinkContainer to="/">
-                        <Navbar.Brand className="fw-bold text-muted">Scratch</Navbar.Brand>
+                        <Navbar.Brand className="fw-bold text-muted">Music Works</Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle />
                     <Navbar.Collapse className="justify-content-end">
