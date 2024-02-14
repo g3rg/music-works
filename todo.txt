@@ -3,11 +3,19 @@
 [x] Song page - Set play speed
 [x] Move song controls around to work better on mobile with fat thumbs
 [x] allow greater than 5mb uploads... - expose ETag header on S3 bucket
+[x] Split song edit and song play pages
 
-[ ] Split song edit and song play pages
+Songplayer:
+    [x] Loop Song
+    [x] Separate Play Button
+    [x] Separate Stop Button
+    [x] Separate Timeline / time display
+    [x] hide "controls"
+    [x] reset play button when duration reached and not looping
+    [ ] NaN error?
 
-
-[ ] Loop Song
+[ ] Password reset
+[ ] Sharing songs?
 
 [ ] Check 'add to home' on phone uses Chrome time for charlotte or not
 
