@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import {useState, useEffect, ChangeEvent, useRef} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { API, Storage } from "aws-amplify";
 import { onError } from "../lib/errorLib";
@@ -16,8 +16,9 @@ export default function Song() {
     const [playing, setPlaying] = useState(false);
     const [currentSeek, setCurrentSeek] = useState(0);
     const [songDuration, setSongDuration] = useState(0)
-    const [player, setPlayer] = useState<null | HTMLAudioElement>(null);
+    //const [player, setPlayer] = useState<null | HTMLAudioElement>(null);
 
+    const player = useRef<HTMLAudioElement>(null);
 
     const nav = useNavigate()
 
@@ -36,22 +37,18 @@ export default function Song() {
                 }
 
                 setSong(song);
-                //@ts-ignore
-                const plr: HTMLAudioElement = document.getElementById('audioPlayer')
-                if (plr) {
-                    plr.ontimeupdate = () => {
-                        setCurrentSeek(plr.currentTime)
-                    }
-                    plr.onended = (event) => {
-                       if (event.target == plr) {
-                           if (!plr.loop) {
-                               setPlaying(false);
-                           }
-                       }
-                    };
 
-                    setPlayer(plr)
-                    setSongDuration(plr.duration)
+                if (player && player.current) {
+                    player.current.ontimeupdate = () => {
+                        setCurrentSeek(player?.current?.currentTime || 0);
+                    }
+                    player.current.onended = () => {
+                        if (!player.current?.loop) {
+                            setPlaying(false);
+                        }
+                    };
+                    if (player.current.duration)
+                        setSongDuration(player.current.duration);
                 }
             } catch (e) {
                 onError(e);
@@ -59,30 +56,28 @@ export default function Song() {
         }
 
         onLoad();
-    }, [id]);
+    }, [id, player]);
 
 
 
     function handleSetSongSpeed(newRate: number) {
         setSongSpeed(newRate)
-        if (player) {
-            player.playbackRate = (newRate / 100)
+        if (player && player.current) {
+            player.current.playbackRate = (newRate / 100)
         }
     }
 
     function handleSetLoop(event: ChangeEvent<HTMLInputElement>) {
         const loopIt = event.target.checked
-        if (player) {
-            player.loop = loopIt
+        if (player && player.current) {
+            player.current.loop = loopIt
         }
 
-        console.log(loopIt)
         setLoopSong(loopIt);
 
     }
     /*
     Audio Player fields and methods:
-    .controls
     .controlsList
     .crossOrigin?
     .currentSrc
@@ -99,20 +94,21 @@ export default function Song() {
      */
 
     function handlePlay() {
-        if (player?.paused) {
+        setSongDuration(player?.current?.duration || 0)
+        if (player?.current?.paused) {
             // @ts-ignore
-            player?.play();
+            player?.current.play();
             setPlaying(true);
         } else {
             // @ts-ignore
-            player?.pause();
+            player?.current.pause();
             setPlaying(false);
         }
     }
 
     function handleSeek(val: number) {
-        if (player)
-            player.currentTime = val
+        if (player && player.current)
+            player.current.currentTime = val
         setCurrentSeek(val);
     }
 
@@ -122,12 +118,14 @@ export default function Song() {
 
         return Math.trunc(mins) + ":" + secs
     }
+
     return (
         <div className="Songs">
             {song && (
                 <Stack gap={3}>
                     <p>Song: {song.songName}</p>
-                    <audio id="audioPlayer">
+                    <audio id="audioPlayer"
+                           ref={player}>
                         <source src={song.songFileURL}
                                 type='audio/mp3'/>
                     </audio>

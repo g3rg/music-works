@@ -12,22 +12,15 @@ Songplayer:
     [x] Separate Timeline / time display
     [x] hide "controls"
     [x] reset play button when duration reached and not looping
-    [ ] NaN error?
-
-[ ] Password reset
-[ ] Sharing songs?
+    [x] NaN error?
 
 [ ] Check 'add to home' on phone uses Chrome time for charlotte or not
-
-[ ] Move song list to new page
-[ ] home page select song from drop down?
-[ ] home page play current selected song
-[ ] home page allow setting of song speed
-
 [ ] Delete file on delete/update
 
 
 Future Functions
+[ ] Password reset
+[ ] Sharing songs?
 
 [ ] Loop section of song
 [ ] Restart song
