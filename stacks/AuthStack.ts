@@ -17,7 +17,9 @@ export function AuthStack({ stack, app }: StackContext) {
         api,
         // Policy granting access to a specific folder in the bucket
         new iam.PolicyStatement({
-            actions: ["s3:*"],
+            actions: [
+                "s3:*",
+            ],
             effect: iam.Effect.ALLOW,
             resources: [
                 bucket.bucketArn + "/private/${cognito-identity.amazonaws.com:sub}/*",

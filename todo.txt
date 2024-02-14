@@ -1,9 +1,29 @@
 [x] Song page - Play Song
 [x] Song page - fix upload on update
 [x] Song page - Set play speed
+[x] Move song controls around to work better on mobile with fat thumbs
+
+[x] allow greater than 5mb uploads... - expose ETag header on S3 bucket
 
 [ ] Move song list to new page
-[ ] home page select song from drop down
+[ ] home page select song from drop down?
 [ ] home page play current selected song
 [ ] home page allow setting of song speed
+
 [ ] Check 'add to home' on phone uses Chrome time for charlotte or not
+
+[ ] Delete file on delete/update
+
+
+Future Functions
+[ ] Loop Song
+[ ] Loop section of song
+[ ] Restart song
+[ ] Set delayed start
+[ ] Bluetooth keyboard controls???
+[ ] Playlist function
+[ ] Save song specific volume
+[ ] Crop song?
+
+[ ] Add youtube and rip / upload background task?
+[ ] Youtube control... embed and set playback speed on the video component via jQuery?

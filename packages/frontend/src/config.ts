@@ -1,6 +1,6 @@
 const config = {
     // Frontend config
-    MAX_ATTACHMENT_SIZE: 5000000,
+    MAX_ATTACHMENT_SIZE: 7500000,
 
     // Backend config
     s3: {

@@ -10,6 +10,7 @@ export function StorageStack({ stack }: StackContext) {
                 allowedOrigins: ["*"],
                 allowedHeaders: ["*"],
                 allowedMethods: ["GET", "PUT", "POST", "DELETE", "HEAD"],
+                exposedHeaders: ["ETag"],
             },
         ],
     });

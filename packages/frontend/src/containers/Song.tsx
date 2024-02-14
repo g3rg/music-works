@@ -7,7 +7,7 @@ import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import LoaderButton from "../components/LoaderButton.tsx";
 import { SongType } from "../types/song.ts";
-import {s3Upload} from "../lib/awsLib.ts";
+import { s3Upload } from "../lib/awsLib.ts";
 
 export default function Song() {
     const file = useRef<null | File>(null)
@@ -160,8 +160,8 @@ export default function Song() {
                             )}
                             <Form.Control onChange={handleFileChange} type="file"/>
                         </Form.Group>
-
-                        <audio id="audioPlayer" controls >
+                        <p>Playback Rate <span id="currentPbr">{songSpeed}%</span></p>
+                        <audio id="audioPlayer" controls>
                             <source src={song.songFileURL}
                                     type='audio/mp3'/>
                         </audio>
@@ -170,7 +170,6 @@ export default function Song() {
                                value={songSpeed}
                                onChange={(event) => setSongSpeedAndPlaybackRate(parseInt(event.target.value))}/>
 
-                        <p>Playback Rate <span id="currentPbr">{songSpeed}%</span></p>
 
                         <Stack gap={1}>
                             <LoaderButton
