@@ -51,7 +51,7 @@ export default function Home() {
                     </ListGroup.Item>
                 </LinkContainer>
                 {songs.map(({ songId, songName, createdAt }) => (
-                    <LinkContainer key={songId} to={`/songs/${songId}`}>
+                    <LinkContainer key={songId} to={`/songPlayer/${songId}`}>
                         <ListGroup.Item action className="text-nowrap text-truncate">
                             <span className="fw-bold">{songName.trim()}</span>
                             <br />

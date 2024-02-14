@@ -7,6 +7,7 @@ import NewSong from "./containers/NewSong.tsx";
 import Song from "./containers/Song.tsx";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute.tsx";
 import AuthenticatedRoute from "./components/AuthenticatedRoute.tsx";
+import SongPlayer from "./containers/SongPlayer.tsx";
 
 export default function Links() {
     return (
@@ -42,6 +43,14 @@ export default function Links() {
                 element={
                     <AuthenticatedRoute>
                         <Song />
+                    </AuthenticatedRoute>
+                }
+            />
+            <Route
+                path="/songplayer/:id"
+                element={
+                    <AuthenticatedRoute>
+                        <SongPlayer />
                     </AuthenticatedRoute>
                 }
             />
