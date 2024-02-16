@@ -93,8 +93,23 @@ export default function Song() {
     .volume
      */
 
-    function handlePlay() {
+    function updateSongControls() {
         setSongDuration(player?.current?.duration || 0)
+        if (player?.current) {
+            player.current.ontimeupdate = () => {
+                setCurrentSeek(player?.current?.currentTime || 0);
+            }
+            player.current.onended = () => {
+                if (!player.current?.loop) {
+                    setPlaying(false);
+                }
+            };
+        }
+    }
+
+
+    function handlePlay() {
+        updateSongControls();
         if (player?.current?.paused) {
             // @ts-ignore
             player?.current.play();
