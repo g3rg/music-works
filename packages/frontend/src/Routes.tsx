@@ -1,13 +1,14 @@
-import { Route, Routes } from "react-router-dom";
-import Home from "./containers/Home.tsx";
-import NotFound from "./containers/NotFound.tsx";
-import Login from "./containers/Login.tsx";
-import Signup from "./containers/Signup.tsx";
-import NewSong from "./containers/NewSong.tsx";
-import Song from "./containers/Song.tsx";
-import UnauthenticatedRoute from "./components/UnauthenticatedRoute.tsx";
-import AuthenticatedRoute from "./components/AuthenticatedRoute.tsx";
-import SongPlayer from "./containers/SongPlayer.tsx";
+import { Route, Routes } from "react-router-dom"
+import Home from "./containers/Home.tsx"
+import NotFound from "./containers/NotFound.tsx"
+import Login from "./containers/Login.tsx"
+import ResetPassword from "./containers/ResetPassword.tsx"
+import Signup from "./containers/Signup.tsx"
+import NewSong from "./containers/NewSong.tsx"
+import Song from "./containers/Song.tsx"
+import UnauthenticatedRoute from "./components/UnauthenticatedRoute.tsx"
+import AuthenticatedRoute from "./components/AuthenticatedRoute.tsx"
+import SongPlayer from "./containers/SongPlayer.tsx"
 
 export default function Links() {
     return (
@@ -19,6 +20,14 @@ export default function Links() {
                 element={
                     <UnauthenticatedRoute>
                         <Login />
+                    </UnauthenticatedRoute>
+                }
+            />
+            <Route
+                path="/login/reset"
+                element={
+                    <UnauthenticatedRoute>
+                        <ResetPassword />
                     </UnauthenticatedRoute>
                 }
             />

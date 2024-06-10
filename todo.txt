@@ -14,13 +14,14 @@ Songplayer:
     [x] reset play button when duration reached and not looping
     [x] NaN error?
 
+[x] Password reset
+[ ] Change password
+
 [ ] Check 'add to home' on phone uses Chrome time for charlotte or not
 [ ] Delete file on delete/update
 
-
 Future Functions
-[ ] Password reset
-[ ] Sharing songs?
+[ ] Allow making songs 'shared'?
 
 [ ] Loop section of song
 [ ] Restart song
