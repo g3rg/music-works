@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<body>
+<!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+<div id="player"></div>
+
+<script>
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+    function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+            height: '390',
+            width: '640',
+            //videoId: 'lzZ6BK_Auok',
+            videoId: 'eXS89RFUlOY',
+
+            playerVars: { // https://developers.google.com/youtube/player_parameters
+                'playsinline': 1,
+                //'autoplay': 1,        // Auto-play the video on load
+                'controls': 0,        // Show pause/play buttons in player
+                'showinfo': 0,        // Hide the video title
+                'fs': 0,              // Hide the full screen button
+                'cc_load_policy': 0,  // Hide closed captions
+                'iv_load_policy': 3,  // Hide the Video Annotations
+                // 'start': 620,         // Start the vdeo at 618s
+                // 'end': 628,           // End the video at 628s
+                'enablejsapi': 0,
+                'loop': 0,            // Run the video in a loop
+                'autohide': 0,         // Hide video controls when playing
+                //'origin': 'http://music-tools.s3-website-ap-southeast-2.amazonaws.com/',
+            },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange,
+                'onError': onError,
+            }
+        });
+    }
+
+    // 4. The API will call this function when the video player is ready.
+    function onPlayerReady(event) {
+        player.setPlaybackRate(1.00);
+    }
+
+    // 5. The API calls this function when the player's state changes.
+    //    The function indicates that when playing a video (state=1),
+    //    the player should play for six seconds and then stop.
+    var done = false;
+    function onPlayerStateChange(event) {
+        //if (event.data == YT.PlayerState.PLAYING && !done) {
+        //  setTimeout(stopVideo, 6000);
+        //  done = true;
+        //}
+    }
+    function onError(event) {
+        /*
+          2 - invalid param?
+          5 - HTML5 error?
+          100 - Not found or marked as private
+          101/105 - Embedding not supported by copywrite holder, may work on desktop?
+        */
+        var errNo = event.data;
+
+        alert('There was a problem loading this video, it may be the copywrite holder does not allow embedding the video from YouTube, or the URL is incorrect (' + event.data + ')');
+    }
+    function stopVideo() {
+        //player.stopVideo();
+        player.pause();
+    }
+
+    function slowPlayer(rt) {
+        console.log(player)
+        player.setPlaybackRate(rt)
+    }
+
+    window.onload = function () {
+        var speedSlider = document.getElementById("speedSlider");
+        var c = document.getElementById("currentPbr");
+
+        function setPlaybackSpeed() {
+            var percVal = Math.trunc(speedSlider.value * 100);
+            var decVal = parseFloat(speedSlider.value);
+            console.log(player.getAvailablePlaybackRates());
+            c.innerHTML = '' + (percVal) + '%';
+            //player.setPlaybackRate(decVal);
+            slowPlayer(decVal)
+            console.log(player.getPlaybackRate());
+            console.log(`Rate set - ${decVal}`);
+        }
+
+        speedSlider.addEventListener('input',function(){
+            setPlaybackSpeed();
+            console.log("Setting speed")
+        },false);
+
+        // Handle 'enter' after pasting video url, need a button as well.
+        window.addEventListener('keydown',function(e) {
+            if (e.keyIdentifier=='U+000A' || e.keyIdentifier=='Enter' || e.keyCode==13) {
+                if (e.target.nodeName=='INPUT' && e.target.type=='text') {
+                    e.preventDefault();
+
+                    if (player) {
+                        var pastedUrl = e.target.value;
+                        // find the video id
+                        /*
+                         Possible Formats:
+                            https://www.youtube.com/watch?v=lzZ6BK_Auok
+                            https://www.youtube.com/watch?v=eXS89RFUlOY
+                            https://www.youtube.com/watch?v=wchI5BYVBYM
+                        */
+                        let paramString = pastedUrl.split('?')[1];
+                        let queryString = new URLSearchParams(paramString);
+                        for (let pair of queryString.entries()) {
+                            console.log("Key is: " + pair[0]);
+                            console.log("Value is: " + pair[1]);
+                        }
+
+                        var videoId = queryString.get('v');
+                        console.log(videoId);
+
+                        var embedUrl = `http://www.youtube.com/v/${videoId}?version=3`
+
+                        player.loadVideoByUrl(embedUrl, 0);
+                    }
+
+                    return false;
+                }
+            }
+        }, true);
+    };
+</script>
+<form>
+    <input id="youtubeUrl" name="youtubeUrl" placeholder="Copy YouTube URL here"></form>
+<input id="speedSlider" type="range" value="1"
+       min="0.5" max="1.5" step="0.05" >
+
+<p>Playback Rate <span id="currentPbr">100%</span></p>
+<input id="stopVid" type="button" value="stop" onClick="stopVideo()">
+<input id="speed1" type="button" value="85%" onClick="slowPlayer(0.85)">
+<input id="speed2" type="button" value="80%" onClick="slowPlayer(0.83)">
+<input id="speed3" type="button" value="75%" onClick="slowPlayer(0.65)">
+<input id="loopCtrl" type="checkbox" value="loop"> Loop
+</form>
+</body>
+</html>
