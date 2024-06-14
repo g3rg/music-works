@@ -8,7 +8,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { BsPause, BsPlay } from "react-icons/bs";
 
-export default function Song() {
+export default function SongPlayer() {
     const {id} = useParams();
     const [song, setSong] = useState<null | SongType>(null);
     const [songSpeed, setSongSpeed] = useState(100);

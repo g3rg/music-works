@@ -1,3 +1,43 @@
+[x] Password reset
+
+[x] include youtuber POC
+
+[ ] Implement YouTube control page
+    [x] new route
+    [x] iframe display
+    [x] speed slider
+    [x] youtube url
+    [ ] Handle more url formats
+    [ ] seek
+    [ ] loop
+    [ ] start loop
+    [ ] end loop
+    [ ] loop section
+    [ ] add time to start / delayed start
+
+[ ] Save youtube links + loop / trip / section data, possibly several sections?
+
+[ ] Allow making songs 'shared'
+
+[ ] Update components and test fine-grained speed setting again
+
+[ ] Change password
+
+[ ] Delete file on delete/update
+[ ] count in???
+[ ] Loop section of song
+[ ] Restart song
+[ ] Set delayed start
+[ ] Bluetooth keyboard controls???
+[ ] Playlist function
+[ ] Save song specific volume
+[ ] Crop song?
+
+[ ] Add youtube and rip / upload background task?
+[ ] Youtube control... embed and set playback speed on the video component via jQuery?
+
+
+ARCHIVED TODO:
 [x] Song page - Play Song
 [x] Song page - fix upload on update
 [x] Song page - Set play speed
@@ -14,22 +54,4 @@ Songplayer:
     [x] reset play button when duration reached and not looping
     [x] NaN error?
 
-[x] Password reset
-[ ] Change password
-
-[ ] Check 'add to home' on phone uses Chrome time for charlotte or not
-[ ] Delete file on delete/update
-
-Future Functions
-[ ] Allow making songs 'shared'?
-
-[ ] Loop section of song
-[ ] Restart song
-[ ] Set delayed start
-[ ] Bluetooth keyboard controls???
-[ ] Playlist function
-[ ] Save song specific volume
-[ ] Crop song?
-
-[ ] Add youtube and rip / upload background task?
-[ ] Youtube control... embed and set playback speed on the video component via jQuery?
+[x] Check 'add to home' on phone uses Chrome time for charlotte or not - it does :(

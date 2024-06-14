@@ -9,7 +9,7 @@ import Song from "./containers/Song.tsx"
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute.tsx"
 import AuthenticatedRoute from "./components/AuthenticatedRoute.tsx"
 import SongPlayer from "./containers/SongPlayer.tsx"
-import YouTubePlayer from "./containers/YouTubePlayer.tsx"
+import YouTubeSongPlayer from "./containers/YouTubeSongPlayer.tsx"
 
 export default function Links() {
     return (
@@ -67,7 +67,7 @@ export default function Links() {
             <Route
                 path="/youtube"
                 element={
-                    <YouTubePlayer/>
+                    <YouTubeSongPlayer/>
                 }
             />
 
