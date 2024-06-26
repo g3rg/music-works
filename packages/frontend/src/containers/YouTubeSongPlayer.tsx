@@ -1,12 +1,13 @@
-import React, {useState, useEffect, ChangeEvent} from "react";
-import { useNavigate } from "react-router-dom";
-import { onError } from "../lib/errorLib";
+import {useState, useEffect, ChangeEvent} from "react"
+import { onError } from "../lib/errorLib"
 
-import Stack from "react-bootstrap/Stack";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { BsPause, BsPlay } from "react-icons/bs";
-import YouTube, {YouTubeEvent, YouTubePlayer} from "react-youtube";
+import Stack from "react-bootstrap/Stack"
+import Button from "react-bootstrap/Button"
+import Form from "react-bootstrap/Form"
+import { BsPause, BsPlay } from "react-icons/bs"
+import YouTube, {YouTubeEvent, YouTubePlayer} from "react-youtube"
+import getVideoId from 'get-video-id'
+
 
 export default function YouTubeSongPlayer() {
     const [songSpeed, setSongSpeed] = useState(100)
@@ -17,9 +18,10 @@ export default function YouTubeSongPlayer() {
     const [songDuration, setSongDuration] = useState(0)
     const [player, setPlayer] = useState<null | YouTubePlayer>(null)
 
-    const nav = useNavigate()
 
     const playerOpts = {
+        height: '100%',
+        width: '100%',
         playerVars: {
             controls: 0,
         },
@@ -50,26 +52,9 @@ export default function YouTubeSongPlayer() {
     }, []);
 
     function handleSongUrlChange(newUrl: string) {
-        let newId = newUrl
-        /*
-        FORMATS:
-        U32RXRW1n8I
-        https://www.youtube.com/watch?v=U32RXRW1n8I
-        https://www.youtube.com/watch?v=U32RXRW1n8I&ts=5
+        const { id } = getVideoId(newUrl)
 
-        https://www.youtube.com/watch?v=1w7OgIMMRc4&pp=ygUSc3dlZXQgY2hpbGQgbyBtaW5l
-        https://youtu.be/U32RXRW1n8I?t=1606
-
-        http://www.youtube.com/v/U32RXRW1n8I?version=3
-         */
-
-        if (newUrl.indexOf("watch?v=") > -1) {
-            let tmp = newUrl.substring(newUrl.indexOf("watch?v=") + "watch?v=".length)
-            newId=tmp.substring(0, Math.max(tmp.indexOf("&"), tmp.length))
-            console.log(newId)
-        }
-
-        player?.loadVideoById(newId) // {url, startSeconds, endSeconds}
+        player?.loadVideoById(id) // {url, startSeconds, endSeconds}
         setSongUrl(newUrl)
     }
 
@@ -95,8 +80,9 @@ export default function YouTubeSongPlayer() {
     }
 
     function updateSongControls() {
+
+        setSongDuration(player?.getDuration() || 0)
         /*
-        setSongDuration(player?.current?.duration || 0)
         if (player?.current) {
             player.current.ontimeupdate = () => {
                 setCurrentSeek(player?.current?.currentTime || 0);
@@ -107,6 +93,7 @@ export default function YouTubeSongPlayer() {
                 }
             };
         }
+
          */
     }
 
@@ -158,18 +145,20 @@ export default function YouTubeSongPlayer() {
                             onChange={(e) => handleSongUrlChange(e.target.value)}
                         />
                     </Form.Group>
-                    <YouTube
-                        videoId={"ieXwRuKjBts"}
-                        opts={playerOpts}
-                        onReady={onReady}
-                        onPlay={()=>{}}
-                        onPause={()=>{}}
-                        onEnd={()=>{}}
-                        onError={()=>{}}
-                        onStateChange={()=>{}}
-                        onPlaybackRateChange={()=>{}}
-                        onPlaybackQualityChange={()=>{}}
-                    />
+                    <div className="YouDiv">
+                        <YouTube
+                            videoId={""}
+                            opts={playerOpts}
+                            onReady={onReady}
+                            onPlay={()=>{}}
+                            onPause={()=>{}}
+                            onEnd={()=>{}}
+                            onError={()=>{}}
+                            onStateChange={()=>{}}
+                            onPlaybackRateChange={()=>{}}
+                            onPlaybackQualityChange={()=>{}}
+                        />
+                    </div>
                     <p>Seek: {formatTime(currentSeek)} / {formatTime(songDuration)}</p>
                     <Form.Range id="seek"
                                 min="0" max={songDuration} step="1"

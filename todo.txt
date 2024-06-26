@@ -7,8 +7,13 @@
     [x] iframe display
     [x] speed slider
     [x] youtube url
-    [ ] Handle more url formats
-    [ ] seek
+    [x] Handle more url formats
+    [x] Test on mobile
+    [ ] fit video in window for mobile
+    [ ] show duration
+    [ ] show current position
+    [ ] allow user to seek
+
     [ ] loop
     [ ] start loop
     [ ] end loop
@@ -16,10 +21,7 @@
     [ ] add time to start / delayed start
 
 [ ] Save youtube links + loop / trip / section data, possibly several sections?
-
 [ ] Allow making songs 'shared'
-
-[ ] Update components and test fine-grained speed setting again
 
 [ ] Change password
 
