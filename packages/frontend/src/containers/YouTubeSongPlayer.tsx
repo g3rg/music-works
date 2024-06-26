@@ -23,20 +23,9 @@ export default function YouTubeSongPlayer() {
         height: '100%',
         width: '100%',
         playerVars: {
-            controls: 0,
+            controls: 1,
         },
     }
-
-    /*
-    const opts = {
-        height: '390',
-        width: '640',
-        playerVars: {
-        // https://developers.google.com/youtube/player_parameters
-           autoplay: 1,
-        },
-    }
- */
 
     useEffect(() => {
 
@@ -55,6 +44,9 @@ export default function YouTubeSongPlayer() {
         const { id } = getVideoId(newUrl)
 
         player?.loadVideoById(id) // {url, startSeconds, endSeconds}
+        // Duration?
+        console.log(player)
+        console.log(player?.getDuration())
         setSongUrl(newUrl)
     }
 
@@ -74,32 +66,17 @@ export default function YouTubeSongPlayer() {
         }
 
          */
-
-        setLoopSong(loopIt);
+        player?.setLoop(loopIt)
+        setLoopSong(loopIt)
 
     }
 
     function updateSongControls() {
-
         setSongDuration(player?.getDuration() || 0)
-        /*
-        if (player?.current) {
-            player.current.ontimeupdate = () => {
-                setCurrentSeek(player?.current?.currentTime || 0);
-            }
-            player.current.onended = () => {
-                if (!player.current?.loop) {
-                    setPlaying(false);
-                }
-            };
-        }
-
-         */
+        setCurrentSeek(player?.getCurrentTime())
     }
 
-
     function handlePlay() {
-        // player.playVideo();
         // pauseVideo playVideoAt setLoop seekTo setPlaybackRate getDuration getCurrentTime getPlayerMode getPlayerState
         updateSongControls();
         if (player?.getPlayerState() === 1) {
@@ -109,7 +86,6 @@ export default function YouTubeSongPlayer() {
             player?.playVideo();
             setPlaying(true);
         }
-
     }
 
     function handleSeek(val: number) {
@@ -130,7 +106,18 @@ export default function YouTubeSongPlayer() {
 
 
     function onReady(event: YouTubeEvent) {
-        setPlayer(event.target);
+        setPlayer(event.target)
+        console.log("onReady")
+    }
+
+    function onPlay(event: YouTubeEvent) {
+        updateSongControls()
+    }
+
+    function onEnd(event: YouTubeEvent) {
+        if (loopSong) {
+            player?.playVideo()
+        }
     }
 
     return (
@@ -150,9 +137,9 @@ export default function YouTubeSongPlayer() {
                             videoId={""}
                             opts={playerOpts}
                             onReady={onReady}
-                            onPlay={()=>{}}
+                            onPlay={onPlay}
                             onPause={()=>{}}
-                            onEnd={()=>{}}
+                            onEnd={onEnd}
                             onError={()=>{}}
                             onStateChange={()=>{}}
                             onPlaybackRateChange={()=>{}}

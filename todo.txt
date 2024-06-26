@@ -9,18 +9,20 @@
     [x] youtube url
     [x] Handle more url formats
     [x] Test on mobile
-    [ ] fit video in window for mobile
-    [ ] show duration
-    [ ] show current position
+    [x] fit video in window for mobile
+    [x] show duration
+    [x] loop
+
+    [.] show current position
     [ ] allow user to seek
 
-    [ ] loop
     [ ] start loop
     [ ] end loop
     [ ] loop section
     [ ] add time to start / delayed start
 
 [ ] Save youtube links + loop / trip / section data, possibly several sections?
+
 [ ] Allow making songs 'shared'
 
 [ ] Change password
