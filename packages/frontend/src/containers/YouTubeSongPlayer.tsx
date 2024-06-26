@@ -60,12 +60,6 @@ export default function YouTubeSongPlayer() {
 
     function handleSetLoop(event: ChangeEvent<HTMLInputElement>) {
         const loopIt = event.target.checked
-        /*
-        if (player && player.current) {
-            player.current.loop = loopIt
-        }
-
-         */
         player?.setLoop(loopIt)
         setLoopSong(loopIt)
 
@@ -89,12 +83,8 @@ export default function YouTubeSongPlayer() {
     }
 
     function handleSeek(val: number) {
-        /*
-        if (player && player.current)
-            player.current.currentTime = val
-
-         */
-        setCurrentSeek(val);
+        setCurrentSeek(val)
+        player?.seekTo(val)
     }
 
     function formatTime(time: number) {
