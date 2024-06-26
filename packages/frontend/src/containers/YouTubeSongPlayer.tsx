@@ -110,11 +110,11 @@ export default function YouTubeSongPlayer() {
         console.log("onReady")
     }
 
-    function onPlay(event: YouTubeEvent) {
+    function onPlay() {
         updateSongControls()
     }
 
-    function onEnd(event: YouTubeEvent) {
+    function onEnd() {
         if (loopSong) {
             player?.playVideo()
         }
