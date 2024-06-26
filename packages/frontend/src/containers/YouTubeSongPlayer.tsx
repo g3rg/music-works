@@ -17,7 +17,7 @@ export default function YouTubeSongPlayer() {
     const [currentSeek, setCurrentSeek] = useState(0)
     const [songDuration, setSongDuration] = useState(0)
     const [player, setPlayer] = useState<null | YouTubePlayer>(null)
-
+    const [timerInterval, setTimerInterval] = useState<null | NodeJS.Timeout>(null)
 
     const playerOpts = {
         height: '100%',
@@ -62,7 +62,6 @@ export default function YouTubeSongPlayer() {
         const loopIt = event.target.checked
         player?.setLoop(loopIt)
         setLoopSong(loopIt)
-
     }
 
     function updateSongControls() {
@@ -76,9 +75,13 @@ export default function YouTubeSongPlayer() {
         if (player?.getPlayerState() === 1) {
             player?.pauseVideo();
             setPlaying(false);
+            if (timerInterval)
+                clearInterval(timerInterval)
+
         } else {
             player?.playVideo();
             setPlaying(true);
+
         }
     }
 
@@ -101,7 +104,7 @@ export default function YouTubeSongPlayer() {
     }
 
     function onPlay() {
-        updateSongControls()
+        setTimerInterval(setInterval(() => updateSongControls(),500))
     }
 
     function onEnd() {

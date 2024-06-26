@@ -12,14 +12,14 @@
     [x] fit video in window for mobile
     [x] show duration
     [x] loop
+    [x] allow user to seek
+    [x] show current position
 
-    [.] show current position
-    [ ] allow user to seek
+    [ ] start point
+        [ ] add time to start / delayed start
 
-    [ ] start loop
-    [ ] end loop
-    [ ] loop section
-    [ ] add time to start / delayed start
+    [ ] end point
+    [ ] loop section?
 
 [ ] Save youtube links + loop / trip / section data, possibly several sections?
 
