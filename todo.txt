@@ -15,11 +15,18 @@
     [x] allow user to seek
     [x] show current position
 
-    [ ] start point
-        [ ] add time to start / delayed start
+    [x] end point
+    [x] start point
+    [x] loop section
 
-    [ ] end point
-    [ ] loop section?
+    [ ] dual slider for section start/end, allow micro adjustments?
+
+    [ ] add time to start / delayed start
+
+[ ] Fix 'play' button on auto play
+[ ] Do we want autoplay?
+[ ] make play button big
+[ ] hot key space bar for play/pause
 
 [ ] Save youtube links + loop / trip / section data, possibly several sections?
 

@@ -19,6 +19,9 @@ export default function YouTubeSongPlayer() {
     const [player, setPlayer] = useState<null | YouTubePlayer>(null)
     const [timerInterval, setTimerInterval] = useState<null | NodeJS.Timeout>(null)
 
+    const [startTime, setStartTime] = useState(0)
+    const [endTime, setEndTime] = useState(-1)
+
     const playerOpts = {
         height: '100%',
         width: '100%',
@@ -28,25 +31,23 @@ export default function YouTubeSongPlayer() {
     }
 
     useEffect(() => {
-
-        async function onLoad() {
-            try {
-
-            } catch (e) {
-                onError(e);
+        console.log(`${player?.getPlayerState()} - ${currentSeek > endTime} - ${currentSeek} - ${endTime}`)
+        if (loopSong) {
+            if (player?.getPlayerState() === 1 && endTime > 0 && currentSeek > endTime) {
+                setCurrentSeek(startTime)
+                player?.seekTo(startTime)
+            }
+        } else {
+            if (player?.getPlayerState() === 1 && endTime > 0 && currentSeek > endTime) {
+                console.log(`STOP! - ${currentSeek > endTime} - ${currentSeek} - ${endTime}`)
+                player?.pauseVideo()
             }
         }
-
-        onLoad();
-    }, []);
+    }, [loopSong, currentSeek, startTime, endTime]);
 
     function handleSongUrlChange(newUrl: string) {
         const { id } = getVideoId(newUrl)
-
         player?.loadVideoById(id) // {url, startSeconds, endSeconds}
-        // Duration?
-        console.log(player)
-        console.log(player?.getDuration())
         setSongUrl(newUrl)
     }
 
@@ -104,7 +105,10 @@ export default function YouTubeSongPlayer() {
     }
 
     function onPlay() {
-        setTimerInterval(setInterval(() => updateSongControls(),500))
+        setTimerInterval(setInterval(() => updateSongControls(),250))
+        if (endTime === -1) {
+            setEndTime(player?.getDuration())
+        }
     }
 
     function onEnd() {
@@ -155,6 +159,24 @@ export default function YouTubeSongPlayer() {
                         <Form.Label>Loop Playback</Form.Label>
                         <Form.Check type="checkbox" id="chkLoop" value={"" + loopSong}
                                     onChange={(event) => handleSetLoop(event)}/>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Start Time</Form.Label>
+                        <Form.Control
+                            size="lg"
+                            value={startTime}
+                            onChange={(e) => setStartTime(parseInt(e.target.value))}
+                        />
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>End Time</Form.Label>
+                        <Form.Control
+                            size="lg"
+                            value={endTime}
+                            onChange={(e) => setEndTime(parseInt(e.target.value))}
+                        />
                     </Form.Group>
                     <table>
                         <tbody>
