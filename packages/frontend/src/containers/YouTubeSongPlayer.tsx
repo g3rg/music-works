@@ -1,5 +1,4 @@
 import {useState, useEffect, ChangeEvent} from "react"
-import { onError } from "../lib/errorLib"
 
 import Stack from "react-bootstrap/Stack"
 import Button from "react-bootstrap/Button"
@@ -161,23 +160,20 @@ export default function YouTubeSongPlayer() {
                                     onChange={(event) => handleSetLoop(event)}/>
                     </Form.Group>
 
-                    <Form.Group>
-                        <Form.Label>Start Time</Form.Label>
-                        <Form.Control
-                            size="lg"
-                            value={startTime}
-                            onChange={(e) => setStartTime(parseInt(e.target.value))}
-                        />
-                    </Form.Group>
-
-                    <Form.Group>
-                        <Form.Label>End Time</Form.Label>
-                        <Form.Control
-                            size="lg"
-                            value={endTime}
-                            onChange={(e) => setEndTime(parseInt(e.target.value))}
-                        />
-                    </Form.Group>
+                    <p>Start time <span id="startTimeLabel">{startTime}</span></p>
+                    <Form.Range id="stTime"
+                                min="0" max={songDuration} step="0.1"
+                                value={startTime}
+                                onChange={(event: {
+                                    target: { value: string; };
+                                }) => setStartTime(parseFloat(event.target.value))}/>
+                    <p>End time <span id="endTimeLabel">{endTime}</span></p>
+                    <Form.Range id="enTime"
+                                min="0" max={songDuration} step="0.1"
+                                value={endTime}
+                                onChange={(event: {
+                                    target: { value: string; };
+                                }) => setEndTime(parseFloat(event.target.value))}/>
                     <table>
                         <tbody>
                         <tr>
