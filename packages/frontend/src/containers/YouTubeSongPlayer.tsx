@@ -18,8 +18,8 @@ export default function YouTubeSongPlayer() {
     const [player, setPlayer] = useState<null | YouTubePlayer>(null)
     const [timerInterval, setTimerInterval] = useState<null | NodeJS.Timeout>(null)
 
-    const [startTime, setStartTime] = useState(0)
-    const [endTime, setEndTime] = useState(-1)
+    const [startTime, setStartTime] = useState(0.0)
+    const [endTime, setEndTime] = useState(-1.0)
 
     const playerOpts = {
         height: '100%',
@@ -104,7 +104,7 @@ export default function YouTubeSongPlayer() {
     }
 
     function onPlay() {
-        setTimerInterval(setInterval(() => updateSongControls(),250))
+        setTimerInterval(setInterval(() => updateSongControls(),10))
         if (endTime === -1) {
             setEndTime(player?.getDuration())
         }
@@ -160,17 +160,32 @@ export default function YouTubeSongPlayer() {
                                     onChange={(event) => handleSetLoop(event)}/>
                     </Form.Group>
 
-                    <p>Start time <span id="startTimeLabel">{startTime}</span></p>
+                    <Form.Group>
+                        <Form.Label>Start Time</Form.Label>
+                        <Form.Control
+                            size="lg"
+                            value={startTime}
+                            onChange={(e) => setStartTime(parseFloat(e.target.value))}
+                        />
+                    </Form.Group>
                     <Form.Range id="stTime"
                                 min="0" max={songDuration} step="0.1"
                                 value={startTime}
                                 onChange={(event: {
                                     target: { value: string; };
                                 }) => setStartTime(parseFloat(event.target.value))}/>
-                    <p>End time <span id="endTimeLabel">{endTime}</span></p>
+                    <Form.Group>
+                        <Form.Label>End Time</Form.Label>
+                        <Form.Control
+                            size="lg"
+                            value={endTime}
+                            onChange={(e) => setEndTime(parseFloat(e.target.value))}
+                        />
+                    </Form.Group>
                     <Form.Range id="enTime"
-                                min="0" max={songDuration} step="0.1"
+                                min="0" max={songDuration} step="0.01"
                                 value={endTime}
+
                                 onChange={(event: {
                                     target: { value: string; };
                                 }) => setEndTime(parseFloat(event.target.value))}/>
