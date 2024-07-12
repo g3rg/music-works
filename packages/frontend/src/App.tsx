@@ -47,6 +47,9 @@ function App() {
                         <Navbar.Brand className="fw-bold text-muted">Music Works</Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle />
+                    <LinkContainer to="/playlist">
+                        <Nav.Link>Playlist</Nav.Link>
+                    </LinkContainer>
                     <Navbar.Collapse className="justify-content-end">
                         <Nav activeKey={window.location.pathname}>
                             {isAuthenticated ? (

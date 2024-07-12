@@ -10,6 +10,7 @@ import UnauthenticatedRoute from "./components/UnauthenticatedRoute.tsx"
 import AuthenticatedRoute from "./components/AuthenticatedRoute.tsx"
 import SongPlayer from "./containers/SongPlayer.tsx"
 import YouTubeSongPlayer from "./containers/YouTubeSongPlayer.tsx"
+import PlaylistPlayer from "./containers/PlaylistPlayer.tsx";
 
 export default function Links() {
     return (
@@ -65,11 +66,21 @@ export default function Links() {
                 }
             />
             <Route
+                path="/playlist"
+                element={
+                    <AuthenticatedRoute>
+                        <PlaylistPlayer />
+                    </AuthenticatedRoute>
+                }
+            />
+
+            <Route
                 path="/youtube"
                 element={
                     <YouTubeSongPlayer/>
                 }
             />
+
 
             {/* Finally, catch all unmatched routes */}
             <Route path="*" element={<NotFound />} />;
