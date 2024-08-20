@@ -26,7 +26,6 @@ export default function PlaylistPlayer() {
 
     function onReady(event: YouTubeEvent) {
         setPlayer(event.target)
-        console.log("onReady")
     }
 
     function onPlay() {
@@ -34,13 +33,21 @@ export default function PlaylistPlayer() {
     }
 
     function onEnd() {
-
+        console.log("END")
+        console.log(playlist?.playlistData?.length)
+        if (songIndex+1 < (playlist?.playlistData?.length)) {
+            console.log(`set Song index ${songIndex} + 1`)
+            setSongIndex(songIndex+1)
+        } else {
+            setSongIndex(1)
+        }
     }
 
     const dummPlaylist: PlaylistType = {
         playlistId: '1234',
         playlistName: "All of Greg's Songs",
         playlistData: [
+            {},
             {
                 songTitle: "Fell on Black Days",
                 artist: "Soundgarden",
