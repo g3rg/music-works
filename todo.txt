@@ -2,6 +2,19 @@
 
 [x] include youtuber POC
 
+
+[ ] Youtube Playlist Page
+    [x] Basic
+    [ ] Auto play next song
+    [ ] put specified gap between songs
+    [ ] play / pause button
+    [ ] Instrument select
+    [ ] Instrument display
+    [ ] QR code for public link to sync playing on other devices - eg. tablet set up for drummer to see?
+
+[ ] YouTube playlist create / edit page
+
+
 [ ] Implement YouTube control page
     [x] new route
     [x] iframe display
@@ -22,17 +35,14 @@
 
     [ ] add time to start / delayed start
 
-[ ] Fix 'play' button on auto play
-[ ] Do we want autoplay?
-[ ] make play button big
-[ ] hot key space bar for play/pause
+    [ ] Fix 'play' button on auto play
+    [ ] Do we want autoplay?
+    [ ] make play button big
+    [ ] hot key space bar for play/pause
 
-[ ] Save youtube links + loop / trip / section data, possibly several sections?
-    [ ] Or maybe query string?
-    
-[ ] Youtube Playlist Page
-    Playlist - songs (in order or shuffle), gap before playing next song (seconds)
-    Song - URL, start time (+/-), end time (+/-), [instrument info pages]
+    [ ] Save youtube links + loop / trip / section data, possibly several sections?
+        [ ] Or maybe query string?
+
 
 
 [ ] Allow making songs 'shared'

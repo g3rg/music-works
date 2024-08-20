@@ -8,6 +8,7 @@ import Stack from "react-bootstrap/Stack";
 import LoaderButton from "../components/LoaderButton.tsx";
 import { SongType } from "../types/song.ts";
 import { s3Upload } from "../lib/awsLib.ts";
+import "./Song.css"
 
 export default function Song() {
     const file = useRef<null | File>(null)

@@ -47,7 +47,7 @@ function App() {
                         <Navbar.Brand className="fw-bold text-muted">Music Works</Navbar.Brand>
                     </LinkContainer>
                     <Navbar.Toggle />
-                    <LinkContainer to="/playlist">
+                    <LinkContainer to="/playlist/1">
                         <Nav.Link>Playlist</Nav.Link>
                     </LinkContainer>
                     <Navbar.Collapse className="justify-content-end">

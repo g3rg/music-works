@@ -66,7 +66,7 @@ export default function Links() {
                 }
             />
             <Route
-                path="/playlist"
+                path="/playlist/:id"
                 element={
                     <AuthenticatedRoute>
                         <PlaylistPlayer />

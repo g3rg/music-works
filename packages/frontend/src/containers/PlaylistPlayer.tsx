@@ -1,22 +1,42 @@
 import {ChangeEvent, useEffect, useState} from "react";
 import {onError} from "../lib/errorLib.ts";
 import {useParams} from "react-router-dom";
+import YouTube, {YouTubeEvent, YouTubePlayer} from "react-youtube"
+import getVideoId from 'get-video-id'
 import {PlaylistEntryType, PlaylistType} from "../types/playlist.ts";
-
+import "./PlaylistPlayer.css"
 
 export default function PlaylistPlayer() {
 
     const { id } = useParams();
 
     const [playlist, setPlaylist] =useState<null | PlaylistType>(null);
-    const [title, setTitle] = useState('')
-    const [artist, setArtist] = useState('')
-    const [url, setUrl] = useState('')
-    const [selectedInstrument, setSelectedInstrument] = useState('')
-    /*
-            Playlist - songs (in order or shuffle), gap before playing next song (seconds)
-    Song - URL, start time (+/-), end time (+/-), [instrument info pages]
-     */
+    const [songIndex, setSongIndex] = useState(-1)
+    const [title, setTitle] = useState<undefined|string>('')
+    const [artist, setArtist] = useState<undefined|string>('')
+    const [player, setPlayer] = useState<null | YouTubePlayer>(null)
+
+    const playerOpts = {
+        height: '35%',
+        width: '35%',
+        playerVars: {
+            controls: 1,
+        },
+    }
+
+    function onReady(event: YouTubeEvent) {
+        setPlayer(event.target)
+        console.log("onReady")
+    }
+
+    function onPlay() {
+
+    }
+
+    function onEnd() {
+
+    }
+
     const dummPlaylist: PlaylistType = {
         playlistId: '1234',
         playlistName: "All of Greg's Songs",
@@ -24,7 +44,7 @@ export default function PlaylistPlayer() {
             {
                 songTitle: "Fell on Black Days",
                 artist: "Soundgarden",
-                url: "",
+                url: "https://youtu.be/ySzrJ4GRF7s?si=B3zSu-rswmeh1kLc",
                 startTime: 0,
                 endTime: 0,
                 instrumentPages: {
@@ -122,7 +142,7 @@ I sure don't mind a change`
             {
                 songTitle: "Godless",
                 artist: "Dandy Warhols",
-                url: "",
+                url: "https://youtu.be/LduipA_XUJ8?si=pvljnhm3rPlvR-sK",
                 startTime: 0,
                 endTime: 0,
                 instrumentPages: {
@@ -187,7 +207,39 @@ hey I said you're heartless
 and I swear, I swear`
                     }
                 }
-            }
+            },
+            {
+                songTitle: "Mother",
+                artist: "Danzig",
+                url: "https://youtu.be/7inLYcK369M?si=vglZXk7nCIYMdNix",
+                startTime: 0,
+                endTime: 0,
+                instrumentPages: {
+                    "Guitar": {
+                        "Tuning": "Standard",
+                        "Tab": ``
+
+                    },
+                    "Lyrics": ``
+                }
+            },
+            {
+                songTitle: "Drive",
+                artist: "Incubus",
+                url: "https://www.youtube.com/watch?v=fgT9zGkiLig",
+                startTime: 0,
+                endTime: 0,
+                instrumentPages: {
+                    "Guitar": {
+                        "Tuning": "Standard",
+                        "Tab": ``
+
+                    },
+                    "Lyrics": ``
+                }
+            },
+
+
         ]
     }
 
@@ -203,6 +255,7 @@ and I swear, I swear`
                 if (id) {
                     const pl = await loadPlaylist(id)
                     setPlaylist(pl)
+                    setSongIndex(0)
                 }
             } catch (e) {
                 onError(e);
@@ -212,8 +265,19 @@ and I swear, I swear`
         onLoad();
     }, [id]);
 
+    useEffect( () => {
+        const song = playlist?.playlistData[songIndex]
+        setTitle(song?.songTitle)
+        setArtist(song?.artist)
+        if (song && song.url) {
+            const {id} = getVideoId(song?.url)
+            player?.loadVideoById(id) // {url, startSeconds, endSeconds}
+        }
+    }, [id, songIndex])
+
     const handleSongChange = ( event: ChangeEvent<HTMLSelectElement> )=> {
         console.log(event.target.value)
+        setSongIndex(parseInt(event.target.value))
     }
 
     const renderSongSelector = (songs : undefined|PlaylistEntryType[]) => {
@@ -221,7 +285,7 @@ and I swear, I swear`
             <select onChange={ handleSongChange }>
                 {songs?.map( (song, idx) => {
                     return (
-                        <option key={idx} value={id}>{ song?.songTitle } - { song?.artist }</option>
+                        <option key={idx} value={idx}>{ song?.songTitle } - { song?.artist }</option>
                     )
                 })}
             </select>
@@ -231,17 +295,26 @@ and I swear, I swear`
     return (
         <div>
             {playlist?.playlistName}<br/>
-            { renderSongSelector(playlist?.playlistData) }
+            {renderSongSelector(playlist?.playlistData)}<br/>
             Title: {title}<br/>
             Artist: {artist}<br/>
 
-            player-{url}
+            <div className="YouDiv">
+                <YouTube
+                    videoId={""}
+                    opts={playerOpts}
+                    onReady={onReady}
+                    onPlay={onPlay}
+                    onPause={() => {
+                    }}
+                    onEnd={onEnd}
+                    onError={() => {
+                    }}
+                />
+            </div>
             <br/>
 
             Play Button <br/>
-
-            Instrument: ${selectedInstrument}
-
 
         </div>
     )

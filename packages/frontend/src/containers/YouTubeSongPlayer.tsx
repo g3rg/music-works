@@ -1,12 +1,11 @@
 import {useState, useEffect, ChangeEvent} from "react"
-
 import Stack from "react-bootstrap/Stack"
 import Button from "react-bootstrap/Button"
 import Form from "react-bootstrap/Form"
 import { BsPause, BsPlay } from "react-icons/bs"
 import YouTube, {YouTubeEvent, YouTubePlayer} from "react-youtube"
-import getVideoId from 'get-video-id'
-
+import getVideoId from "get-video-id"
+import "./YouTubeSongPlayer.css"
 
 export default function YouTubeSongPlayer() {
     const [songSpeed, setSongSpeed] = useState(100)
