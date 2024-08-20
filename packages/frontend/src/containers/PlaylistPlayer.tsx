@@ -15,6 +15,7 @@ export default function PlaylistPlayer() {
     const [title, setTitle] = useState<undefined|string>('')
     const [artist, setArtist] = useState<undefined|string>('')
     const [player, setPlayer] = useState<null | YouTubePlayer>(null)
+    const [timerInterval, setTimerInterval] = useState<null | NodeJS.Timeout>(null)
 
     const playerOpts = {
         height: '35%',
@@ -33,10 +34,7 @@ export default function PlaylistPlayer() {
     }
 
     function onEnd() {
-        console.log("END")
-        console.log(playlist?.playlistData?.length)
-        if (songIndex+1 < (playlist?.playlistData?.length)) {
-            console.log(`set Song index ${songIndex} + 1`)
+        if (playlist?.playlistData?.length && songIndex+1 < playlist?.playlistData?.length) {
             setSongIndex(songIndex+1)
         } else {
             setSongIndex(1)
@@ -52,8 +50,9 @@ export default function PlaylistPlayer() {
                 songTitle: "Fell on Black Days",
                 artist: "Soundgarden",
                 url: "https://youtu.be/ySzrJ4GRF7s?si=B3zSu-rswmeh1kLc",
-                startTime: 0,
-                endTime: 0,
+                leadTime: 5,
+                startTime: 13,
+                endTime: 25,
                 instrumentPages: {
                     "Guitar": {
                         "Tuning": "Standard",
@@ -150,8 +149,9 @@ I sure don't mind a change`
                 songTitle: "Godless",
                 artist: "Dandy Warhols",
                 url: "https://youtu.be/LduipA_XUJ8?si=pvljnhm3rPlvR-sK",
-                startTime: 0,
-                endTime: 0,
+                leadTime: 5,
+                //startTime: 0,
+                //endTime: -1,
                 instrumentPages: {
                     "Guitar": {
                         "Tuning": "Standard",
@@ -219,8 +219,9 @@ and I swear, I swear`
                 songTitle: "Mother",
                 artist: "Danzig",
                 url: "https://youtu.be/7inLYcK369M?si=vglZXk7nCIYMdNix",
+                leadTime: 0,
                 startTime: 0,
-                endTime: 0,
+                endTime: -1,
                 instrumentPages: {
                     "Guitar": {
                         "Tuning": "Standard",
@@ -234,8 +235,9 @@ and I swear, I swear`
                 songTitle: "Drive",
                 artist: "Incubus",
                 url: "https://www.youtube.com/watch?v=fgT9zGkiLig",
+                leadTime: 2,
                 startTime: 0,
-                endTime: 0,
+                endTime: -1,
                 instrumentPages: {
                     "Guitar": {
                         "Tuning": "Standard",
@@ -252,7 +254,7 @@ and I swear, I swear`
 
     useEffect(() => {
         function loadPlaylist(id: string) {
-            console.log(`Load Playlist ${id}`)
+            console.log(`Load Playlist ${id} in the future`)
             return dummPlaylist
             // API.get("songs", `/playlist/${id}`, {});
         }
@@ -276,20 +278,29 @@ and I swear, I swear`
         const song = playlist?.playlistData[songIndex]
         setTitle(song?.songTitle)
         setArtist(song?.artist)
-        if (song && song.url) {
-            const {id} = getVideoId(song?.url)
-            player?.loadVideoById(id) // {url, startSeconds, endSeconds}
+        let lead = 0
+        if (song?.leadTime) {
+            lead = song?.leadTime * 1000
         }
+        if (songIndex > 0) {
+            setTimerInterval(setTimeout(() => {
+                if (song && song.url) {
+                    const {id} = getVideoId(song?.url)
+                    player?.loadVideoById(id, song.startTime||0)
+                }
+
+            }, lead))
+        }
+
     }, [id, songIndex])
 
     const handleSongChange = ( event: ChangeEvent<HTMLSelectElement> )=> {
-        console.log(event.target.value)
         setSongIndex(parseInt(event.target.value))
     }
 
-    const renderSongSelector = (songs : undefined|PlaylistEntryType[]) => {
+    const renderSongSelector = (songs : undefined|PlaylistEntryType[], songIndex: number) => {
         return (
-            <select onChange={ handleSongChange }>
+            <select onChange={ handleSongChange } value={songIndex}>
                 {songs?.map( (song, idx) => {
                     return (
                         <option key={idx} value={idx}>{ song?.songTitle } - { song?.artist }</option>
@@ -302,7 +313,7 @@ and I swear, I swear`
     return (
         <div>
             {playlist?.playlistName}<br/>
-            {renderSongSelector(playlist?.playlistData)}<br/>
+            {renderSongSelector(playlist?.playlistData, songIndex)}<br/>
             Title: {title}<br/>
             Artist: {artist}<br/>
 

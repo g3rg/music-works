@@ -2,6 +2,7 @@ export interface PlaylistEntryType {
     songTitle?: string;
     artist?: string;
     url?: string;
+    leadTime?: number,
     startTime?: number,
     endTime?: number,
     instrumentPages?:{}

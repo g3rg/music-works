@@ -3,14 +3,21 @@
 [x] include youtuber POC
 
 
-[ ] Youtube Playlist Page
+[ ] Youtube Playlist Basic player
     [x] Basic
-    [ ] Auto play next song
-    [ ] put specified gap between songs
+    [x] Auto play next song
+    [x] update drop down on song change
+    [x] add lead time before start playing
+    [x] implement startTime
     [ ] play / pause button
+    [ ] implement endTime
+    [ ] show countdown for lead time?
+
+[ ] Youtube playlist instruction display
     [ ] Instrument select
     [ ] Instrument display
     [ ] QR code for public link to sync playing on other devices - eg. tablet set up for drummer to see?
+
 
 [ ] YouTube playlist create / edit page
 
